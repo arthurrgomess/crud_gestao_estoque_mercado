@@ -1,4 +1,5 @@
 <?php
+// Configuração da conexão com o banco de dados (PDO)
 
 $host = 'localhost';
 $dbname = 'gestao_estoque_mercado';
@@ -6,8 +7,12 @@ $usuario = 'root';
 $senha = '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $usuario, $senha);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $usuario, $senha, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
 } catch (PDOException $e) {
-    die("Erro ao conectar ao banco de dados: " . $e->getMessage());
+    error_log($e->getMessage());
+    http_response_code(500);
+    die("Não foi possível conectar ao banco de dados. Confira a configuração e tente novamente.");
 }

@@ -1,83 +1,41 @@
 # Sistema de Gestão de Estoque - Mercado
 
-## Objetivo
+Aplicação CRUD em PHP e MySQL para cadastrar e controlar produtos de um mercado.
 
-Sistema para controlar os produtos disponíveis no estoque de um mercado,
-permitindo cadastrar, visualizar, editar e excluir produtos (CRUD completo),
-com foco em segurança (Prepared Statements) e organização do código.
+## Tecnologias e requisitos
 
-## Tecnologias utilizadas
+- PHP 8 ou superior com PDO MySQL habilitado
+- MySQL ou MariaDB
+- XAMPP, WAMP ou outro servidor web com PHP
 
-- PHP
-- MySQL
-- PDO (PHP Data Objects) com Prepared Statements
-- HTML
+## Instalação
 
-## Requisitos para execução
+1. Copie esta pasta para `htdocs` (XAMPP) ou para a pasta pública do seu servidor.
+2. Importe `database/db.sql` no phpMyAdmin ou em outro cliente MySQL. O script cria o banco `gestao_estoque_mercado`, a tabela `produtos` e alguns registros de exemplo.
+3. Se necessário, ajuste host, usuário e senha no arquivo `infra/conexao.php`.
+4. Inicie Apache e MySQL e abra `http://localhost/crud_gestao_estoque_mercado/`.
 
-- PHP 8 ou superior
-- MySQL / MariaDB
-- Servidor local (ex: XAMPP, WAMP ou `php -S`)
+## Estrutura
 
-## Instalação e configuração
+| Arquivo | Finalidade |
+| --- | --- |
+| `index.php` | Lista produtos e oferece links para editar e excluir |
+| `public/cadastrar.php` | Formulário e operação de cadastro |
+| `public/editar.php` | Formulário e operação de edição |
+| `public/excluir.php` | Operação de exclusão |
+| `public/funcoes.php` | Consultas, operações CRUD e validação |
+| `infra/conexao.php` | Conexão PDO com MySQL |
+| `database/db.sql` | Criação e configuração do banco e da tabela |
+| `casos_de_uso.md` | Atores, ações e diagrama de caso de uso |
 
-1. Clone este repositório.
-2. Execute o script `database/db.sql` no seu MySQL (via phpMyAdmin, terminal
-   ou outra ferramenta) para criar o banco `gestao_estoque_mercado` e a
-   tabela `produtos`.
-3. Abra o arquivo `infra/conexao.php` e ajuste `host`, `usuario` e `senha`
-   conforme o seu ambiente, caso necessário.
-4. Coloque a pasta do projeto dentro do diretório do seu servidor local
-   (ex: `htdocs`, no XAMPP).
-5. Acesse `index.php` (na raiz do projeto) pelo navegador, por exemplo:
-   `http://localhost/gestao-estoque-mercado/index.php`
+## Dados armazenados
 
-## Estrutura do projeto
+A tabela `produtos` contém nome, categoria, descrição, preço, quantidade em estoque e data de validade, além da chave primária `id`.
 
-```
-database/
-  db.sql             -> script de criação do banco e da tabela
-infra/
-  conexao.php        -> conexão com o banco de dados (PDO)
-public/
-  funcoes.php        -> funções do CRUD (listar, buscar, cadastrar, editar, excluir, validar)
-  cadastrar.php      -> formulário e lógica de cadastro (Create)
-  editar.php         -> formulário e lógica de edição (Update)
-  excluir.php        -> exclusão de um produto (Delete)
-index.php            -> lista os produtos cadastrados (Read)
-casos_de_uso.md      -> documentação de caso de uso (atores e ações)
-README.md            -> este arquivo
-```
+## Segurança e validação
 
-## Estrutura do banco de dados
+As consultas usam Prepared Statements do PDO. Os campos são validados no servidor, valores exibidos são escapados com `htmlspecialchars` e falhas de banco são registradas no log do PHP sem expor detalhes técnicos na página.
 
-Tabela `produtos`:
+## Caso de uso
 
-| Campo               | Tipo           |
-|---------------------|----------------|
-| id                  | INT (PK, auto) |
-| nome                | VARCHAR(100)   |
-| categoria           | VARCHAR(50)    |
-| descricao           | TEXT           |
-| preco               | DECIMAL(10,2)  |
-| quantidade_estoque  | INT            |
-| data_validade       | DATE           |
-
-## Funcionalidades principais
-
-- **Cadastrar produto** (`public/cadastrar.php`): formulário com validação
-  básica dos campos obrigatórios.
-- **Listar produtos** (`index.php`): exibe todos os produtos cadastrados em
-  uma tabela.
-- **Editar produto** (`public/editar.php`): atualiza os dados de um produto
-  já existente.
-- **Excluir produto** (`public/excluir.php`): remove um produto do estoque.
-- Todas as operações com o banco de dados usam **Prepared Statements**
-  (em `public/funcoes.php`), evitando SQL Injection.
-- Tratamento básico de erros na conexão (`infra/conexao.php`) e nas
-  operações com o banco.
-
-## Documentação de Caso de Uso
-
-Veja o arquivo [`casos_de_uso.md`](./casos_de_uso.md) para o diagrama e a
-descrição dos atores e ações do sistema.
+Consulte [`casos_de_uso.md`](casos_de_uso.md) para ver o ator e as ações disponíveis.

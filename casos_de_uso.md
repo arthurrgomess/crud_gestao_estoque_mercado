@@ -2,38 +2,35 @@
 
 ## Ator
 
-- **Operador do Mercado**: pessoa responsável por gerenciar o estoque de
-  produtos (única persona do sistema nesta versão).
+- **Operador do mercado:** pessoa responsável por manter os dados dos produtos e acompanhar o estoque.
 
-## Ações que o ator pode realizar
+## Ações disponíveis
 
-- Cadastrar um novo produto no estoque.
-- Listar/visualizar os produtos cadastrados.
+- Cadastrar produto informando nome, categoria, descrição, preço, quantidade e validade.
+- Listar e visualizar os produtos cadastrados.
 - Editar os dados de um produto existente.
-- Excluir um produto do estoque.
+- Excluir um produto após confirmar a ação.
 
-## Diagrama de Caso de Uso
+## Diagrama
 
 ```mermaid
-graph LR
-    Ator((Operador do Mercado))
-
-    UC1[Cadastrar Produto]
-    UC2[Listar Produtos]
-    UC3[Editar Produto]
-    UC4[Excluir Produto]
-
-    Ator --> UC1
-    Ator --> UC2
-    Ator --> UC3
-    Ator --> UC4
+flowchart LR
+    operador((Operador do mercado))
+    cadastro[Cadastrar produto]
+    lista[Listar produtos]
+    edicao[Editar produto]
+    exclusao[Excluir produto]
+    operador --> cadastro
+    operador --> lista
+    operador --> edicao
+    operador --> exclusao
 ```
 
-## Descrição resumida de cada caso de uso
+## Fluxo resumido
 
-| Caso de uso        | Descrição                                                                 |
-|---------------------|----------------------------------------------------------------------------|
-| Cadastrar Produto   | O operador preenche o formulário com nome, categoria, descrição, preço, quantidade e validade, e o sistema insere o registro no banco. |
-| Listar Produtos     | O sistema exibe todos os produtos cadastrados em uma tabela.              |
-| Editar Produto      | O operador seleciona um produto existente, altera os dados desejados e o sistema atualiza o registro. |
-| Excluir Produto     | O operador seleciona um produto e confirma a exclusão; o sistema remove o registro do banco. |
+| Caso de uso | Resultado esperado |
+| --- | --- |
+| Cadastrar produto | O sistema valida os campos e grava o novo produto no banco. |
+| Listar produtos | O sistema exibe os produtos cadastrados e seus dados principais. |
+| Editar produto | O sistema valida e salva as alterações do produto escolhido. |
+| Excluir produto | Após a confirmação, o sistema remove o produto escolhido. |

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS produtos (
     data_validade DATE NOT NULL
 );
 
+-- Alguns registros de exemplo (opcional)
 INSERT INTO produtos (nome, categoria, descricao, preco, quantidade_estoque, data_validade) VALUES
 ('Arroz 5kg', 'Grãos', 'Arroz branco tipo 1', 25.90, 40, '2027-03-10'),
 ('Leite Integral 1L', 'Laticínios', 'Leite integral UHT', 5.49, 60, '2026-12-01'),

@@ -7,9 +7,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $erros = validarDadosProduto($dados);
 
     if (empty($erros)) {
-        cadastrarProduto($pdo, $dados);
-        header("Location: ../index.php");
-        exit;
+        try {
+            if (cadastrarProduto($pdo, $dados)) {
+                header("Location: ../index.php");
+                exit;
+            }
+            $erros[] = 'Não foi possível cadastrar o produto. Tente novamente.';
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $erros[] = 'O banco de dados não conseguiu cadastrar o produto.';
+        }
     }
 }
 ?>
@@ -33,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST">
         <label>Nome: <input type="text" name="nome" value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>" required></label><br><br>
         <label>Categoria: <input type="text" name="categoria" value="<?= htmlspecialchars($_POST['categoria'] ?? '') ?>" required></label><br><br>
-        <label>Descrição: <textarea name="descricao"><?= htmlspecialchars($_POST['descricao'] ?? '') ?></textarea></label><br><br>
+        <label>Descrição: <textarea name="descricao" required><?= htmlspecialchars($_POST['descricao'] ?? '') ?></textarea></label><br><br>
         <label>Preço: <input type="number" step="0.01" name="preco" value="<?= htmlspecialchars($_POST['preco'] ?? '') ?>" required></label><br><br>
         <label>Quantidade em estoque: <input type="number" name="quantidade_estoque" value="<?= htmlspecialchars($_POST['quantidade_estoque'] ?? '') ?>" required></label><br><br>
         <label>Data de validade: <input type="date" name="data_validade" value="<?= htmlspecialchars($_POST['data_validade'] ?? '') ?>" required></label><br><br>
